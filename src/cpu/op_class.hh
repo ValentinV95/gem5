@@ -133,6 +133,7 @@ static const OpClass SimdExtOp = enums::SimdExt;
 static const OpClass SimdFloatExtOp = enums::SimdFloatExt;
 static const OpClass SimdConfigOp = enums::SimdConfig;
 static const OpClass Num_OpClasses = enums::Num_OpClass;
+static const OpClass VectorFloatVecMathArithOp = enums::VectorFloatVecMathArith;
 
 } // namespace gem5
 
