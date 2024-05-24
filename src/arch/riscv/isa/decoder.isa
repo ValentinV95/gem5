@@ -2707,6 +2707,38 @@ decode QUADRANT default Unknown::unknown() {
                                          ftype<et>(Vs1_vu[i]),
                                          false, true).v;
                 }}, OPFVV, VectorFloatArithOp);
+                
+                0x0b: VectorFloatFormat::vfcross_vv({{
+                    if(this->microVl%4 == 1 || this->microVl%4 == 2) {
+                        return std::make_shared<IllegalInstFault>("Cross Product VL wrong", machInst);
+                    }
+                    if(i%4 == 0) {
+                        auto fd = fsub<et>(ftype<et>( fmul<et>(ftype<et>(Vs1_vu[i + 1]),
+                                                               ftype<et>(Vs2_vu[i + 2])).v),
+                                           ftype<et>( fmul<et>(ftype<et>(Vs1_vu[i + 2]),
+                                                               ftype<et>(Vs2_vu[i + 1])).v));
+                        Vd_vu[i] = fd.v;
+                    }
+                    if(i%4 == 1) {
+                        auto fd = fsub<et>(ftype<et>( fmul<et>(ftype<et>(Vs1_vu[i + 1]),
+                                                               ftype<et>(Vs2_vu[i - 1])).v),
+                                           ftype<et>( fmul<et>(ftype<et>(Vs1_vu[i - 1]),
+                                                               ftype<et>(Vs2_vu[i + 1])).v));
+                        Vd_vu[i] = fd.v;
+                    }
+                    if(i%4 == 2) {
+                        auto fd = fsub<et>(ftype<et>( fmul<et>(ftype<et>(Vs1_vu[i - 2]),
+                                                               ftype<et>(Vs2_vu[i - 1])).v),
+                                           ftype<et>( fmul<et>(ftype<et>(Vs1_vu[i - 1]),
+                                                               ftype<et>(Vs2_vu[i - 2])).v));
+                        Vd_vu[i] = fd.v;
+                    }
+                    if(i%4 == 3) {
+                        auto fd = fsub<et>(ftype<et>(Vs1_vu[i]), ftype<et>(Vs2_vu[i]));
+                        Vd_vu[i] = fd.v;
+                    }
+                }}, OPFVV, VectorFloatVecMathArithOp);
+                
                 // VWFUNARY0
                 0x10: decode VS1 {
                     0x00: decode VM {

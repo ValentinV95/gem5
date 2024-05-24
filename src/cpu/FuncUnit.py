@@ -119,6 +119,7 @@ class OpClass(Enum):
         "VectorMisc",
         "VectorIntegerExtension",
         "VectorConfig",
+        "VectorFloatVecMathArith",
     ]
 
 
